@@ -69,16 +69,20 @@ class XLSXTranslationsReader(TranslationsReader):
 
         r = 0
         for row in worksheet.iter_rows():
-            message = six.text_type(row[self.messages_col].value)
-            if message in seen:
-                raise Exception("Duplicate message found " +
-                                "at row {0:d}".format(r))
-            seen.add(message)
+            message = row[self.messages_col].value
+            if message:
+                message = six.text_type(message)
+                if message in seen:
+                    raise Exception("Duplicate message found " +
+                                    "at row {0:d}".format(r))
+                seen.add(message)
 
-            translation = six.text_type(row[self.translations_col].value)
+                translation = row[self.translations_col].value
+                if translation:
+                    translation = six.text_type(translation)
 
-            self._translations.append(Translation(message,
-                                                  translation=translation))
+                self._translations.append(Translation(message,
+                                                      translation=translation))
             r += 1
 
         return self._translations
