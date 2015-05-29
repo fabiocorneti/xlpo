@@ -22,7 +22,7 @@ from xlpo.writers.gettext import POFileTranslationsWriter
 
 
 def execute(argv=None):
-    arguments = docopt(__doc__, argv=argv[1:], version=xlpo.__version__)
+    arguments = docopt(__doc__, argv=argv, version=xlpo.__version__)
     input_file = arguments['<input.xlsx>']
     output_file = arguments['<output.po>']
     encoding = 'utf-8'

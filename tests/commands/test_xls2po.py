@@ -16,7 +16,7 @@ class TestXsl2poCommand(BaseTestCase):
         temp_dir = tempfile.mkdtemp()
         input_filename = os.path.join(self.FILES_DIR, 'en_it__noheaders.xlsx')
         output_filename = os.path.join(temp_dir, 'output.po')
-        argv = ['xls2po', input_filename, output_filename]
+        argv = [input_filename, output_filename]
         xls2po.execute(argv)
         reader = POFileTranslationsReader(output_filename)
         self.assertEqual(len(reader), 2)
