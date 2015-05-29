@@ -27,19 +27,20 @@ class TestPOTranslationsWriter(BaseTestCase):
         translations = [
             Translation('Hello', 'Salve')
         ]
-        with self.assertRaises(Exception):
-            writer = POFileTranslationsWriter(None)
-            writer.write(translations)
-        with self.assertRaises(Exception):
-            writer = POFileTranslationsWriter('')
-            writer.write(translations)
-        with self.assertRaises(IOError):
+
+        self.assertRaises(Exception, lambda: POFileTranslationsWriter(None))
+
+        self.assertRaises(Exception, lambda: POFileTranslationsWriter(''))
+
+        def test():
             temp_dir = tempfile.mkdtemp()
             writer = POFileTranslationsWriter(os.path.join(temp_dir,
                                                            'a',
                                                            'invalid.po'))
             os.rmdir(temp_dir)
             writer.write(translations)
+
+        self.assertRaises(IOError, test)
 
     def test_create(self):
         temp_dir = tempfile.mkdtemp()
@@ -104,8 +105,7 @@ class TestPOTranslationsWriter(BaseTestCase):
         shutil.copyfile(os.path.join(self.FILES_DIR, 'not_a_po.po'),
                         tmp_file.name)
         writer = POFileTranslationsWriter(tmp_file.name)
-        with self.assertRaises(IOError):
-            writer.write(translations)
+        self.assertRaises(IOError, lambda: writer.write(translations))
         tmp_file.close()
 
 

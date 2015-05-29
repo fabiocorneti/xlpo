@@ -42,7 +42,7 @@ class TranslationsReader(object):
     def __eq__(self, other):
         if len(self) != len(other):
             return False
-        for i in xrange(0, len(self)):
+        for i in range(0, len(self)):
             if self[i] != other[i]:
                 return False
         return True

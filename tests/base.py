@@ -30,14 +30,10 @@ class TestBaseClasses(BaseTestCase):
 
     def test_base_classes(self):
         reader = TranslationsReader()
-        with self.assertRaises(NotImplementedError):
-            reader.metadata
-        with self.assertRaises(NotImplementedError):
-            reader.read()
+        self.assertRaises(NotImplementedError, lambda: reader.metadata)
 
         writer = TranslationsWriter()
-        with self.assertRaises(NotImplementedError):
-            writer.write([])
+        self.assertRaises(NotImplementedError, lambda: writer.write([]))
 
     def test_equality(self):
         r1 = TestReader([
@@ -55,10 +51,10 @@ class TestBaseClasses(BaseTestCase):
             Translation('Yes', 'Sì', context='frontend'),
             Translation('Yes', 'Certo', context='backend')
         ])
-        self.assertIn(Translation('Hello', 'Ciao'), reader)
-        self.assertNotIn(Translation('Yes', 'Sì'), reader)
-        self.assertIn(Translation('Yes', 'Sì', context='frontend'), reader)
-        self.assertIn('Yes', reader)
+        self.assertTrue(Translation('Hello', 'Ciao') in reader)
+        self.assertFalse(Translation('Yes', 'Sì') in reader)
+        self.assertTrue(Translation('Yes', 'Sì', context='frontend') in reader)
+        self.assertTrue('Yes' in reader)
 
     def test_find(self):
         reader = TestReader([
