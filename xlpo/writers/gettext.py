@@ -70,14 +70,20 @@ class POFileTranslationsWriter(TranslationsWriter):
             existing = pofile.find(translation.message,
                                    msgctxt=translation.context)
             if existing:
-                existing.msgstr = translation.translation
+                if translation.translation:
+                    existing.msgstr = translation.translation
+                else:
+                    existing.msgstr = ''
             else:
-                pofile.append(polib.POEntry(msgid=translation.message,
-                                            msgstr=translation.translation,
-                                            msgctxt=translation.context))
+                entry = polib.POEntry(msgid=translation.message, msgstr='')
+                if translation.translation:
+                    entry.msgstr = translation.translation
+                if translation.context:
+                    entry.msgctxt = msgctxt=translation.context
+                pofile.append(entry)
 
         try:
             pofile.save(self.filename)
-        except:
+        except Exception as e:
             raise IOError(
                 "Cannot write translations to file {0}".format(self.filename))
