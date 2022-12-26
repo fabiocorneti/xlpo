@@ -1,4 +1,4 @@
-wheel==0.23.0
+wheel==0.38.1
 docopt==0.6.2
 openpyxl==2.2.3
 polib==1.0.6
